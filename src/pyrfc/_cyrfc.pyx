@@ -10,7 +10,7 @@ from libc.stdlib cimport free, malloc
 from socket import gethostname
 from collections.abc import Iterable
 from datetime import date, datetime, time
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 from enum import Enum, auto
 from locale import localeconv
 from os.path import isfile, join
@@ -3210,7 +3210,10 @@ cdef wrapVariable(
                 rc = RfcGetString(container, cName, stringValue, strLen+1, &resultLen, &errorInfo)
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
-            return Decimal(wrapString(stringValue, -1, config & _MASK_RSTRIP))
+            try:
+                return Decimal(wrapString(stringValue, -1, config & _MASK_RSTRIP))
+            except InvalidOperation:
+                return None
         finally:
             free(stringValue)
     elif typ == RFCTYPE_DECF16 or typ == RFCTYPE_DECF34:
