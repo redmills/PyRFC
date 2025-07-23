@@ -3211,6 +3211,7 @@ cdef wrapVariable(
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
             try:
+                print('Here')
                 return Decimal(wrapString(stringValue, -1, config & _MASK_RSTRIP))
             except InvalidOperation:
                 return None
@@ -3237,7 +3238,11 @@ cdef wrapVariable(
                 rc = RfcGetString(container, cName, stringValue, strLen+1, &resultLen, &errorInfo)
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
-            return Decimal(wrapString(stringValue, -1, config & _MASK_RSTRIP))
+            try:
+                print('there')
+                return Decimal(wrapString(stringValue, -1, config & _MASK_RSTRIP))
+            except InvalidOperation:
+                return None
         finally:
             free(stringValue)
     elif typ == RFCTYPE_FLOAT:
