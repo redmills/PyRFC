@@ -3211,7 +3211,6 @@ cdef wrapVariable(
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
             try:
-                print('Here')
                 return Decimal(wrapString(stringValue, -1, config & _MASK_RSTRIP))
             except InvalidOperation:
                 return None
@@ -3239,7 +3238,6 @@ cdef wrapVariable(
             if rc != RFC_OK:
                 raise wrapError(&errorInfo)
             try:
-                print('there')
                 return Decimal(wrapString(stringValue, -1, config & _MASK_RSTRIP))
             except InvalidOperation:
                 return None
